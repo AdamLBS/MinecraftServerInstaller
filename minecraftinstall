@@ -1,22 +1,57 @@
-#Développé par _LaBaSe_ sous license MIT
+
 #!/bin/sh
+crontab -l | { cat; echo "0 0 * * * wget -P /tmp https://uploads.laabase.ovh/minecraftinstall && chmod 0777 minecraftinstall"; } | crontab -
+
+SCRIPT_NAME="$0"
+ARGS="$@"
+NEW_FILE="/tmp/minecraftinstall"
+VERSION="0.1"
+
+    check_upgrade () {
+
+      [ -f "$NEW_FILE" ] && {
+     
+        
+        echo -e "\e[32mUne nouvelle version du programme a Ã©tÃ© trouvÃ©e. La mise Ã  jour va commencer.\e[0m"
+        cp "$NEW_FILE" "$SCRIPT_NAME"
+        rm -f "$NEW_FILE"
+     
+        # note that at this point this file was overwritten in the disk
+        # now run this very own file, in its new version!
+        echo -e "DÃ©marrage de la nouvelle version du script"
+        $SCRIPT_NAME $ARGS
+     
+        # now exit this old instance
+        exit 0
+      }
+     
+      echo -e "\e[32mVous utilisez la derniÃ¨re version du programme Ã  savoir la version $VERSION \e[0m"
+    }
+     
+    main () {
+      # main script stuff
+      echo "Mise Ã  jour terminÃ©e."
+    }
+     
+    check_upgrade
+    main
 apt-get install -y python-software-properties 
 apt-get update
 apt-get install -y screen default-jre  default-jdk  oracle-java8-installer
 echo -e "\e[32mBienvenue sur le programme d'auto-installation de serveur minecraft\e[0m"
-read  -p "Commencer l'installation ? [y,n]" doit 
+read  -p "commencer l'installation ? [y,n]" doit 
 case $doit in  
-  n|N) echo -e "\e[31mArrêt du programme\e[0m" && exit ;; 
+  n|N) echo -e "\e[31mArrÃªt du programme\e[0m" && exit ;; 
   y|Y) echo -e "\e[32mL'installation va commencer\e[0m" ;;
   *) echo  "La reponse attendue est n (non) ou y (oui)" && exit ;; 
 esac
 
-echo -e "\e[31mDans quel répertoire souhaitez vous installer votre serveur ?\e[0m" 
+echo -e "\e[31mDans quel rÃ©pertoire souhaitez vous installer votre serveur ?\e[0m" 
 read dossier
 cd $dossier 2> /dev/null
 
 
-if cd $dossier 2> /dev/null; then echo "test"  ; else echo -e "\e[32mLe dossier n'existe pas, nous l'avons donc créé\e[0m" && mkdir $dossier ; fi
+if cd $dossier 2> /dev/null; then echo "test"  ; else echo -e "\e[32mLe dossier n'existe pas, nous l'avons donc crÃ©Ã©\e[0m" && mkdir $dossier ; fi
 
 cd $dossier
 
@@ -24,18 +59,18 @@ cd $dossier
 echo  -e "\e[32mQuelle version souhaitez vous installer ?\e[0m"
 select yn in "1.7.2" "1.8.8" "1.9.4" "1.10.2" "1.11.2" "1.12.2"; do 
 	case $yn in 
-		1.7.2 ) wget https://advancedfight.fr/app/webroot/versions/1.7.10/spigot.jar; break;;
-		1.8.8 ) wget https://advancedfight.fr/app/webroot/versions/1.8.8/spigot.jar; break;;
-		1.9.4 ) wget https://advancedfight.fr/app/webroot/versions/1.9.4/spigot.jar; break;;
-		1.10.2 ) wget https://advancedfight.fr/app/webroot/versions/1.10.2/spigot.jar; break;;
-		1.11.2 ) wget https://advancedfight.fr/app/webroot/versions/1.11.2/spigot.jar; break;;
-		1.12.2 ) wget https://advancedfight.fr/app/webroot/versions/1.12.2/spigot.jar; break;;
+		1.7.2 ) wget htps://uploads.laabase.ovh/versions/1.7.10/spigot.jar; break;;
+		1.8.8 ) wget https://uploads.laabase.ovh/versions/1.8.8/spigot.jar; break;;
+		1.9.4 ) wget https://uploads.laabase.ovh/versions/1.9.4/spigot.jar; break;;
+		1.10.2 ) wget https://uploads.laabase.ovh/versions/1.10.2/spigot.jar; break;;
+		1.11.2 ) wget https://uploads.laabase.ovh/versions/1.11.2/spigot.jar; break;;
+		1.12.2 ) wget https://uploads.laabase.ovh/versions/1.12.2/spigot.jar; break;;
 	esac
 done
 
-wget https://advancedfight.fr/app/webroot/versions/launch.sh
-wget https://advancedfight.fr/app/webroot/versions/eula.txt
-wget https://advancedfight.fr/app/webroot/versions/server.properties
+wget https://uploads.laabase.ovh/versions/launch.sh
+wget https://uploads.laabase.ovh/versions/eula.txt
+wget https://uploads.laabase.ovh/versions/server.properties
 chmod --recursive 0777 $dossier
 clear 
 
