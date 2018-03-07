@@ -9,11 +9,17 @@ Ce script permet d'installer automatiquement un serveur minecraft sur un VPS lin
 Spigot 1.7.2, 1.9.4, 1.8.8, 1.11.2, 1.12.2 et 1.10.2
 
 # Téléchargement
+En root : 
 ```bash
-wget -P /usr/bin https://advancedfight.fr/app/webroot/versions/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 
 ```
 
+Si vous n'êtes pas en root : 
+```bash
+sudo wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+
+```
 # Utilisation
 Exécutez la commande suivante :
 (Si vous êtes connecté avec root ) 
@@ -37,15 +43,22 @@ This script automatically installs a minecraft server on a linux VPS. The script
 Spigot 1.7.2, 1.9.4, 1.8.8, 1.11.2, 1.12.2 and 1.10.2
 
 # Download
+If you are root : 
+```bash
+wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+
+```
+
+If you are not root : 
 
 ```bash
-wget -P /usr/bin https://advancedfight.fr/app/webroot/versions/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+sudo wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 
 ```
 
 # Use the script : 
 
-Exécutez la commande suivante if you are root
+if you are root
 ```bash
 minecraftinstall
 ```
