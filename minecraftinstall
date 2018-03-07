@@ -1,4 +1,4 @@
-#Développé par _LaBaSe_ toute modification ou réutilisation commerciale est interdite.
+#Développé par _LaBaSe_ sous license MIT
 #!/bin/sh
 apt-get install -y python-software-properties 
 apt-get update
