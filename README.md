@@ -45,7 +45,7 @@ Spigot 1.7.2, 1.9.4, 1.8.8, 1.11.2, 1.12.2 and 1.10.2
 # Download
 If you are root : 
 ```bash
-wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+wget -P /usr/bin https://uploads.laabase.ovh/en/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 
 ```
 
