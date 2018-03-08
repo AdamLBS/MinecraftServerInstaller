@@ -52,7 +52,7 @@ wget -P /usr/bin https://uploads.laabase.ovh/en/minecraftinstall && chmod 0777 /
 If you are not root : 
 
 ```bash
-sudo wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+sudo wget -P /usr/bin https://uploads.laabase.ovh/en/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 
 ```
 
