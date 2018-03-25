@@ -18,8 +18,9 @@ wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr
 Si vous n'êtes pas en root : 
 ```bash
 sudo wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
-
 ```
+Si vous avez un problème lors du téléchargement référez vous à la section "Résolution de problèmes"
+
 # Utilisation
 Exécutez la commande suivante :
 (Si vous êtes connecté avec root ) 
@@ -31,6 +32,23 @@ minecraftinstall
 
 ```bash
 sudo minecraftinstall
+``` 
+# Résolution de problèmes :
+
+Si vous avez une erreur du type  
+```bash
+Erreur : le certificat de « uploads.laabase.ovh » n'est pas de confiance.
+Erreur : le certificat de « uploads.laabase.ovh » n'est pas d'un émetteur connu.
+``` 
+Réalisez la commande suivante (root): 
+
+```bash
+wget -P --no-check-certificate /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+``` 
+
+Si vous n'êtes pas root : 
+```bash
+sudo wget -P --no-check-certificate /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 ``` 
 
 # English Version
@@ -68,7 +86,22 @@ If you are not root :
 ```bash
 sudo minecraftinstall
 ``` 
+# Problem solving
 
+If you have an error of the type
+```bash
+Error: the certificate of "uploads.laabase.ovh" is not trusted.
+Error: The certificate of "uploads.laabase.ovh" is not from a known issuer.
+```
+Make the following command (root):
+```bash
+wget -P --no-check-certificate /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+``` 
+If you are not root : 
+
+```bash
+sudo wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+```
 # Support
 
 If you got any trouble you can contact me at : adam@laabase.ovh
