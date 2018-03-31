@@ -41,12 +41,20 @@ Erreur : le certificat de « uploads.laabase.ovh » n'est pas de confiance.
 Erreur : le certificat de « uploads.laabase.ovh » n'est pas d'un émetteur connu.
 ``` 
 Réalisez la commande suivante (root): 
+or : 
+```bash
+apt-get install ca-certificates
+``` 
 
 ```bash
 wget -P --no-check-certificate /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 ``` 
 
 Si vous n'êtes pas root : 
+```bash
+sudo apt-get install ca-certificates
+``` 
+
 ```bash
 sudo wget -P --no-check-certificate /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 ``` 
@@ -93,11 +101,17 @@ If you have an error of the type
 Error: the certificate of "uploads.laabase.ovh" is not trusted.
 Error: The certificate of "uploads.laabase.ovh" is not from a known issuer.
 ```
-Make the following command (root):
+Make the following commands (root):
+```bash
+ apt-get install ca-certificates
+``` 
 ```bash
 wget -P --no-check-certificate /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 ``` 
 If you are not root : 
+```bash
+sudo apt-get install ca-certificates
+``` 
 
 ```bash
 sudo wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
