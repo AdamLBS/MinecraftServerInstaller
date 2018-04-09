@@ -17,7 +17,7 @@ wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr
 
 Si vous n'êtes pas en root : 
 ```bash
-sudo wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+sudo wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && sudo chmod 0777 /usr/bin/minecraftinstall
 ```
 Si vous avez un problème lors du téléchargement référez vous à la section "Résolution de problèmes"
 
@@ -78,7 +78,7 @@ wget -P /usr/bin https://uploads.laabase.ovh/en/minecraftinstall && chmod 0777 /
 If you are not root : 
 
 ```bash
-sudo wget -P /usr/bin https://uploads.laabase.ovh/en/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+sudo wget -P /usr/bin https://uploads.laabase.ovh/en/minecraftinstall && sudo chmod 0777 /usr/bin/minecraftinstall
 
 ```
 
