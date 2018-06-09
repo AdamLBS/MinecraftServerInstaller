@@ -22,7 +22,7 @@ sudo wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && sudo chmod
 Si vous avez un problème lors du téléchargement référez vous à la section "Résolution de problèmes"
 
 # Utilisation
-Exécutez la commande suivante :
+Exécutez la commande suivante.
 (Si vous êtes connecté avec root ) 
 ```bash
 minecraftinstall
@@ -32,7 +32,26 @@ minecraftinstall
 
 ```bash
 sudo minecraftinstall
-``` 
+```
+
+# DEBUG/VERBOSE
+
+Si vous souhaitez voir toutes les logs pendant l'excécution du programme exécutez la commande suivante :
+(Si vous êtes connecté avec root ) 
+```bash
+minecraftinstall -verbose
+```
+(Si vous n'êtes pas connecté avec root )
+
+```bash
+sudo minecraftinstall -verbose
+```
+# Update
+
+Le script dispose de son propre système de mise à jour. Tous les sois à minuit, il vérifie les mises à jour, en téléchargeant un fichier de moins de 20 ko qui sera dans le dossier /tmp (temporaire)
+Lors du lancement du script, le script va automatiquement vérifier si des mises à jours sont disponibles via le fichier qui a été téléchargé auparavant automatiquement.
+Il supprimera donc le fichier temporaire et appliquera la mise à jour.
+
 # Résolution de problèmes :
 
 Si vous avez une erreur du type  
@@ -94,6 +113,26 @@ If you are not root :
 ```bash
 sudo minecraftinstall
 ``` 
+
+# DEBUG/VERBOSE
+
+If you want to see all the logs while running the program run the following command:
+(If you are logged in with root)
+
+```bash
+minecraftinstall -verbose
+```
+(If you are not logged in with root)
+
+```bash
+sudo minecraftinstall -verbose
+```
+# Update
+
+The script has its own update system. All at midnight, check for updates by uploading a file of less than 20 KB that will be in the / tmp (temporary) folder
+When launching the script, the script will automatically check if updates are available via the file that was previously downloaded automatically.
+It will delete the temporary file and apply the update.
+
 # Problem solving
 
 If you have an error of the type
