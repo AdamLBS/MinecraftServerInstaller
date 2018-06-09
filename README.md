@@ -51,6 +51,17 @@ sudo minecraftinstall -verbose
 Le script dispose de son propre système de mise à jour. Tous les sois à minuit, il vérifie les mises à jour, en téléchargeant un fichier de moins de 20 ko qui sera dans le dossier /tmp (temporaire)
 Lors du lancement du script, le script va automatiquement vérifier si des mises à jours sont disponibles via le fichier qui a été téléchargé auparavant automatiquement.
 Il supprimera donc le fichier temporaire et appliquera la mise à jour.
+Comment mettre à jour le script si vous n'avez pas la dernière version avec l'auto-updater :
+Tapez cette commande (root)
+``` bash
+rm /usr/bin/minecraftinstall && wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall 
+```
+
+Tapez cette commande (no-root)
+```bash
+sudo rm /usr/bin/minecraftinstall && sudo wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && sudo chmod 0777 /usr/bin/minecraftinstall
+```
+
 
 # Résolution de problèmes :
 
@@ -133,6 +144,16 @@ The script has its own update system. All at midnight, check for updates by uplo
 When launching the script, the script will automatically check if updates are available via the file that was previously downloaded automatically.
 It will delete the temporary file and apply the update.
 
+HOW TO UPDATE IF YOU DO NOT HAVE THE VERSION WITH THE AUTO-UPDATER
+Type this command (root)
+``` bash
+rm /usr/bin/minecraftinstall && wget -P /usr/bin https://uploads.laabase.ovh/en/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall 
+```
+
+Type this command (no-root)
+```bash
+sudo rm /usr/bin/minecraftinstall && sudo wget -P /usr/bin https://uploads.laabase.ovh/en/minecraftinstall && sudo chmod 0777 /usr/bin/minecraftinstall
+```
 # Problem solving
 
 If you have an error of the type
