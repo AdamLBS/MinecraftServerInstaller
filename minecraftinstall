@@ -1,63 +1,63 @@
+#!/bin/bash
+while :;do echo -n .;sleep 1;done &
+trap "kill $!" EXIT
+{
+apt-get update 
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' sudo|grep "install ok installed")
+echo Checking for sudo: $PKG_OK
+if [ "" == "$PKG_OK" ]; then
+  echo "No sudo. Setting up sudo."
+   apt-get --force-yes --yes install sudo
+fi
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' screen|grep "install ok installed")
+echo Checking for screen: $PKG_OK
+if [ "" == "$PKG_OK" ]; then
+  echo "No screen. Setting up screen."
+   apt-get --force-yes --yes install screen
+fi
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' python-software-properties|grep "install ok installed")
+echo Checking for python-software-properties: $PKG_OK
+if [ "" == "$PKG_OK" ]; then
+  echo "No python-software-properties. Setting up python-software-properties."
+   apt-get --force-yes --yes install python-software-properties
+fi
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' default-jre|grep "install ok installed")
+echo Checking for default-jre: $PKG_OK
+if [ "" == "$PKG_OK" ]; then
+  echo "No default-jre. Setting up default-jre."
+   apt-get --force-yes --yes install default-jre
+fi
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' default-jdk|grep "install ok installed")
+echo Checking for default-jdk: $PKG_OK
+if [ "" == "$PGK_OK" ]; then
+  echo "No default-jdk. Setting up default-jdk."
+  sudo apt-get --force-yes --yes install default-jdk
+fi
+clear
+} &> /dev/null;
+kill -PIPE $!  &>/dev/null  && trap " " EXIT  &> /dev/null
 
-#!/bin/sh
-crontab -l | { cat; echo "0 0 * * * wget -P /tmp https://uploads.laabase.ovh/minecraftinstall && chmod 0777 minecraftinstall"; } | crontab -
-
-SCRIPT_NAME="$0"
-ARGS="$@"
-NEW_FILE="/tmp/minecraftinstall"
-VERSION="0.1"
-
-    check_upgrade () {
-
-      [ -f "$NEW_FILE" ] && {
-     
-        
-        echo -e "\e[32mUne nouvelle version du programme a Ã©tÃ© trouvÃ©e. La mise Ã  jour va commencer.\e[0m"
-        cp "$NEW_FILE" "$SCRIPT_NAME"
-        rm -f "$NEW_FILE"
-     
-        echo -e "DÃ©marrage de la nouvelle version du script"
-        $SCRIPT_NAME $ARGS
-     
-        # now exit this old instance
-        exit 0
-      }
-     
-      echo -e "\e[32mVous utilisez la derniÃ¨re version du programme Ã  savoir la version $VERSION \e[0m"
-    }
-     
-    main () {
-     
-      echo "Mise Ã  jour terminÃ©e."
-    }
-     
-    check_upgrade
-    main
-apt-get install -y python-software-properties 
-apt-get update
-apt-get install -y screen default-jre  default-jdk  oracle-java8-installer
+clear 
 echo -e "\e[32mBienvenue sur le programme d'auto-installation de serveur minecraft\e[0m"
-read  -p "commencer l'installation ? [y,n]" doit 
+read  -p "Commencer l'installation ? [y,n]" doit 
 case $doit in  
-  n|N) echo -e "\e[31mArrÃªt du programme\e[0m" && exit ;; 
+  n|N) echo -e "\e[31mArrêt du programme\e[0m" && exit ;; 
   y|Y) echo -e "\e[32mL'installation va commencer\e[0m" ;;
   *) echo  "La reponse attendue est n (non) ou y (oui)" && exit ;; 
 esac
 
-echo -e "\e[31mDans quel rÃ©pertoire souhaitez vous installer votre serveur ?\e[0m" 
+echo -e "\e[31mDans quel répertoire souhaitez vous installer votre serveur ? (Exemple : /home/minecraft et non /home/minecraft/ ) \e[0m" 
 read dossier
 cd $dossier 2> /dev/null
 
-
-if cd $dossier 2> /dev/null; then echo "test"  ; else echo -e "\e[32mLe dossier n'existe pas, nous l'avons donc crÃ©Ã©\e[0m" && mkdir $dossier ; fi
+if cd $dossier 2> /dev/null; then echo " "  ; else echo -e "\e[32mLe dossier n'existe pas, nous l'avons donc créé\e[0m" && mkdir $dossier ; fi
 
 cd $dossier
-
 
 echo  -e "\e[32mQuelle version souhaitez vous installer ?\e[0m"
 select yn in "1.7.2" "1.8.8" "1.9.4" "1.10.2" "1.11.2" "1.12.2"; do 
 	case $yn in 
-		1.7.2 ) wget htps://uploads.laabase.ovh/versions/1.7.10/spigot.jar; break;;
+		1.7.2 ) wget https://uploads.laabase.ovh/versions/1.7.10/spigot.jar; break;;
 		1.8.8 ) wget https://uploads.laabase.ovh/versions/1.8.8/spigot.jar; break;;
 		1.9.4 ) wget https://uploads.laabase.ovh/versions/1.9.4/spigot.jar; break;;
 		1.10.2 ) wget https://uploads.laabase.ovh/versions/1.10.2/spigot.jar; break;;
@@ -70,9 +70,31 @@ wget https://uploads.laabase.ovh/versions/launch.sh
 wget https://uploads.laabase.ovh/versions/eula.txt
 wget https://uploads.laabase.ovh/versions/server.properties
 chmod --recursive 0777 $dossier
-clear 
-
+clear
+echo -e "\e[32m --------------------------------------------------------------------- \e[0m"
+echo -e "\e[31m Paramètres du serveur \e[0m"
+echo -e "\e[32m --------------------------------------------------------------------- \e[0m"
+echo -e "\e[31mQuel port voulez vous utiliser pour votre serveur ? \e[0m"
+read serverport
+sed -i -e "s/25565/$serverport/g" $dossier/server.properties
+sed -i -e "s/25565/$serverport/g" $dossier/server.properties
+echo -e "\e[31m Combien de ram souhaitez vous allouer à votre serveur ? à exprimer en G (1G = 1 GO) ou en M (1000M = 1000 Megaoctets \e[0m"
+read ram
+sed -i "s/2G/$ram /g" $dossier/launch.sh
 echo -e  "\e[32m Voici les informations sur votre serveur :\e[0m "
 echo -e "\e[32mRépertoire du serveur : \e[31m$dossier \e[0m "
 echo -e " \e[32mVersion du serveur : \e[31m$yn \e[0m"
-echo -e " \e[32mCommande pour lancer le serveur :\e[31m sh $dossier/launch.sh\e[0m" 
+echo -e " \e[32m Port du serveur : \e[31m$serverport \e[0m"
+echo -e "\e[32m Ram allouée : \e[31m$ram \e[0m"
+echo -e " \e[32m Commande pour accéder au répertoire du serveur : cd $dossier \e[0m"
+echo -e " \e[32mCommande pour lancer le serveur :\e[31m cd $dossier && sh $dossier/launch.sh\e[0m" 
+echo -e " \e[32m Souhaitez vous que le programme lance votre serveur pour la 1ère fois ? \e[0m (y ou n)"
+read  launchinstall
+case $launchinstall in
+
+  n|N) echo -e "\e[31mArrêt du programme. Merci de l'avoir utilisé ! \e[0m" && exit ;;
+  y|Y) echo -e "\e[32mLe lancement de votre serveur va commencer\e[0m" ;;
+  *) echo  "La reponse attendue est n (non) ou y (oui) votre serveur a bien été créé mais le programme ne le lancera pas." && exit ;;
+esac
+sh $dossier/launch.sh
+
