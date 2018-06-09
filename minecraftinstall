@@ -16,8 +16,6 @@ VERSION="0.1"
         cp "$NEW_FILE" "$SCRIPT_NAME"
         rm -f "$NEW_FILE"
      
-        # note that at this point this file was overwritten in the disk
-        # now run this very own file, in its new version!
         echo -e "DÃ©marrage de la nouvelle version du script"
         $SCRIPT_NAME $ARGS
      
@@ -29,7 +27,7 @@ VERSION="0.1"
     }
      
     main () {
-      # main script stuff
+     
       echo "Mise Ã  jour terminÃ©e."
     }
      
