@@ -90,8 +90,7 @@ apt-get install ca-certificates
 ``` 
 
 ```bash
-wget -P --no-check-certificate /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
-``` 
+curl https://uploads.laabase.ovh/download.php?file=minecraftinstall --output /usr/bin/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall``` 
 
 Si vous n'êtes pas root : 
 ```bash
@@ -99,8 +98,8 @@ sudo apt-get install ca-certificates
 ``` 
 
 ```bash
-sudo wget -P --no-check-certificate /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
-``` 
+ sudo curl https://uploads.laabase.ovh/download.php?file=minecraftinstall --output /usr/bin/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+ ``` 
 
 # English Version (With english script)
 
@@ -189,7 +188,7 @@ Make the following commands (root):
  apt-get install ca-certificates
 ``` 
 ```bash
-wget -P --no-check-certificate /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+curl https://uploads.laabase.ovh/download.php?file=minecraftinstall_en --output /usr/bin/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 ``` 
 If you are not root : 
 ```bash
@@ -197,7 +196,7 @@ sudo apt-get install ca-certificates
 ``` 
 
 ```bash
-sudo wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+sudo curl https://uploads.laabase.ovh/download.php?file=minecraftinstall_en --output /usr/bin/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 ```
 # Support
 
