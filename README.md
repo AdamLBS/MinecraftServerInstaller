@@ -9,16 +9,29 @@ Ce script permet d'installer automatiquement un serveur minecraft sur un VPS lin
 Spigot 1.7.2, 1.9.4, 1.8.8, 1.11.2, 1.12.2 et 1.10.2
 
 # Téléchargement
+Avant de télécharger le script vous avez besoin d'installer curl :
+En root :
+```bash
+apt-get install curl
+```
+
+Si vous n'êtes pas root : 
+```bash
+sudo apt-get install curl
+```
+
+Maintenant vous pouvez procéder à l'installation 
 En root : 
 ```bash
-wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+curl https://uploads.laabase.ovh/download.php?file=minecraftinstall --output /usr/bin/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 
 ```
 
 Si vous n'êtes pas en root : 
 ```bash
-sudo wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && sudo chmod 0777 /usr/bin/minecraftinstall
+sudo curl https://uploads.laabase.ovh/download.php?file=minecraftinstall --output /usr/bin/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 ```
+
 Si vous avez un problème lors du téléchargement référez vous à la section "Résolution de problèmes"
 
 # Utilisation
@@ -51,7 +64,7 @@ sudo minecraftinstall -verbose
 Le script dispose de son propre système de mise à jour. Tous les sois à minuit, il vérifie les mises à jour, en téléchargeant un fichier de moins de 20 ko qui sera dans le dossier /tmp (temporaire)
 Lors du lancement du script, le script va automatiquement vérifier si des mises à jours sont disponibles via le fichier qui a été téléchargé auparavant automatiquement.
 Il supprimera donc le fichier temporaire et appliquera la mise à jour.
-Comment mettre à jour le script si vous n'avez pas la dernière version avec l'auto-updater :
+Comment mettre à jour le script SEULEMENT si vous n'avez pas la dernière version avec l'auto-updater :
 Tapez cette commande (root)
 ``` bash
 rm /usr/bin/minecraftinstall && wget -P /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall 
@@ -89,7 +102,7 @@ sudo apt-get install ca-certificates
 sudo wget -P --no-check-certificate /usr/bin https://uploads.laabase.ovh/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 ``` 
 
-# English Version
+# English Version (With english script)
 
 # Auto-Install Minecraft server Script
 This script automatically installs a minecraft server on a linux VPS. The script automatically installs the java 8 environment required for the proper functioning of the server.
@@ -99,17 +112,27 @@ This script automatically installs a minecraft server on a linux VPS. The script
 Spigot 1.7.2, 1.9.4, 1.8.8, 1.11.2, 1.12.2 and 1.10.2
 
 # Download
+
+Before install the script you need to install curl 
+As root :
+```bash
+apt-get install curl
+```
+
+If you are not root :
+```bash
+sudo apt-get install curl
+```
+Then you can install the script : 
 If you are root : 
 ```bash
-wget -P /usr/bin https://uploads.laabase.ovh/en/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
-
+curl https://uploads.laabase.ovh/download.php?file=minecraftinstall_en --output /usr/bin/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 ```
 
 If you are not root : 
 
 ```bash
-sudo wget -P /usr/bin https://uploads.laabase.ovh/en/minecraftinstall && sudo chmod 0777 /usr/bin/minecraftinstall
-
+sudo curl https://uploads.laabase.ovh/download.php?file=minecraftinstall_en --output /usr/bin/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 ```
 
 # Use the script : 
@@ -144,7 +167,7 @@ The script has its own update system. All at midnight, check for updates by uplo
 When launching the script, the script will automatically check if updates are available via the file that was previously downloaded automatically.
 It will delete the temporary file and apply the update.
 
-HOW TO UPDATE IF YOU DO NOT HAVE THE VERSION WITH THE AUTO-UPDATER
+HOW TO UPDATE ONLY IF YOU DO NOT HAVE THE VERSION WITH THE AUTO-UPDATER
 Type this command (root)
 ``` bash
 rm /usr/bin/minecraftinstall && wget -P /usr/bin https://uploads.laabase.ovh/en/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall 
