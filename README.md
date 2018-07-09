@@ -125,13 +125,13 @@ sudo apt-get install curl
 Then you can install the script : 
 If you are root : 
 ```bash
-curl https://uploads.laabase.ovh/download.php?file=minecraftinstall_en --output /usr/bin/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+curl https://uploads.laabase.ovh/download.php?file=minecraftinstall --output /usr/bin/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 ```
 
 If you are not root : 
 
 ```bash
-sudo curl https://uploads.laabase.ovh/download.php?file=minecraftinstall_en --output /usr/bin/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
+sudo curl https://uploads.laabase.ovh/download.php?file=minecraftinstall --output /usr/bin/minecraftinstall && chmod 0777 /usr/bin/minecraftinstall
 ```
 
 # Use the script : 
