@@ -6,7 +6,7 @@ MinecraftServerInstaller :
 Ce script permet d'installer automatiquement un serveur minecraft sur un VPS linux. Le script installe automatiquement l'environnement Java 8 requis pour le bon fonctionnement du serveur. 
 
 # Versions supportées 
-Spigot 1.7.2, 1.9.4, 1.8.8, 1.11.2, 1.12.2 et 1.10.2
+Spigot  1.9.4, 1.8.8, 1.11.2, 1.12.2 et 1.10.2
 
 # Téléchargement
 Avant de télécharger le script vous avez besoin d'installer curl :
@@ -108,7 +108,7 @@ This script automatically installs a minecraft server on a linux VPS. The script
 
 # Supported Minecraft Versions : 
 
-Spigot 1.7.2, 1.9.4, 1.8.8, 1.11.2, 1.12.2 and 1.10.2
+Spigot  1.9.4, 1.8.8, 1.11.2, 1.12.2 and 1.10.2
 
 # Download
 
