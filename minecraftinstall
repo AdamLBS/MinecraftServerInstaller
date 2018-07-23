@@ -171,9 +171,8 @@ if cd $dossier 2> /dev/null; then echo " "  ; else echo -e "\e[32mLe dossier n'e
 cd $dossier
 
 echo  -e "\e[32mQuelle version souhaitez vous installer ?\e[0m"
-select yn in "1.7.2" "1.8.8" "1.9.4" "1.10.2" "1.11.2" "1.12.2"; do 
+select yn in  "1.8.8" "1.9.4" "1.10.2" "1.11.2" "1.12.2"; do 
 	case $yn in 
-		1.7.2 ) curl https://uploads.laabase.ovh/download.php?file=1.7.10.jar --output spigot.jar; break;; 
 		1.8.8 ) curl https://uploads.laabase.ovh/download.php?file=1.8.8.jar --output spigot.jar; break;;
 		1.9.4 ) curl https://uploads.laabase.ovh/download.php?file=1.9.4.jar --output spigot.jar; break;;
 		1.10.2 ) curl https://uploads.laabase.ovh/download.php?file=1.10.2.jar --output spigot.jar; break;;
@@ -235,9 +234,8 @@ cd $dossier
 
 
 echo  -e "\e[32mWich version do you want to install ?\e[0m"
-select yn in "1.7.2" "1.8.8" "1.9.4" "1.10.2" "1.11.2" "1.12.2"; do 
+select yn in  "1.8.8" "1.9.4" "1.10.2" "1.11.2" "1.12.2"; do 
 	case $yn in 
-		1.7.2 ) curl https://uploads.laabase.ovh/download.php?file=1.7.10.jar --output spigot.jar; break;; 
 		1.8.8 ) curl https://uploads.laabase.ovh/download.php?file=1.8.8.jar --output spigot.jar; break;;
 		1.9.4 ) curl https://uploads.laabase.ovh/download.php?file=1.9.4.jar --output spigot.jar; break;;
 		1.10.2 ) curl https://uploads.laabase.ovh/download.php?file=1.10.2.jar --output spigot.jar; break;;
@@ -420,33 +418,29 @@ if cd $dossier 2> /dev/null; then echo " "  ; else echo -e "\e[32mThe folder doe
 
 cd $dossier
 
-OPTION=$(whiptail --nocancel --title "MinecraftInstall" --menu "Choose your version (with the keyboard arrows and then enter)" 15 60 4 \
-"1" "1.7.2"  \
-"2" "1.8.8" \
-"3" "1.9.4" \
-"4" "1.10.2" \
-"5" "1.11.2" \
-"6" "1.12.2" 3>&1 1>&2 2>&3)
+OPTION=$(whiptail --nocancel --title "MinecraftInstall" --menu "Choose your version (with the keyboard arrows and then enter)" 15 60 4 \  \
+"1" "1.8.8" \
+"2" "1.9.4" \
+"3" "1.10.2" \
+"4" "1.11.2" \
+"5" "1.12.2" 3>&1 1>&2 2>&3)
+
 
 if [ "$OPTION" = 1 ]; then
-     curl https://uploads.laabase.ovh/download.php?file=1.7.10.jar --output spigot.jar
-else
-
-if [ "$OPTION" = 2 ]; then
       curl https://uploads.laabase.ovh/download.php?file=1.8.8.jar --output spigot.jar
 else
 
 
-if [ "$OPTION" = 3 ]; then
+if [ "$OPTION" = 2 ]; then
      curl https://uploads.laabase.ovh/download.php?file=1.9.4.jar --output spigot.jar
 else
-  if [ "$OPTION" = 4 ]; then
+  if [ "$OPTION" = 3 ]; then
         curl https://uploads.laabase.ovh/download.php?file=1.10.2.jar --output spigot.jar
 else
-  if [ "$OPTION" = 5 ]; then
+  if [ "$OPTION" = 4 ]; then
         curl https://uploads.laabase.ovh/download.php?file=1.11.2.jar --output spigot.jar
 else
-  if [ "$OPTION" = 6 ]; then
+  if [ "$OPTION" = 5 ]; then
         curl https://uploads.laabase.ovh/download.php?file=1.12.2.jar --output spigot.jar
 fi
 
