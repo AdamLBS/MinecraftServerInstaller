@@ -1,0 +1,31 @@
+
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' sudo|grep "install ok installed")
+echo Checking for sudo: $PKG_OK
+if [ "" == "$PKG_OK" ]; then
+  echo "No sudo. Setting up sudo."
+   apt-get --force-yes --yes install sudo
+fi
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' curl|grep "install ok installed")
+echo Checking for curl: $PKG_OK
+if [ "" == "$PKG_OK" ]; then
+  echo "No screen. Setting up curl."
+   apt-get --force-yes --yes install curl
+fi
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' screen|grep "install ok installed")
+echo Checking for screen: $PKG_OK
+if [ "" == "$PKG_OK" ]; then
+  echo "No screen. Setting up screen."
+   apt-get --force-yes --yes install screen
+fi
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' default-jre|grep "install ok installed")
+echo Checking for default-jre: $PKG_OK
+if [ "" == "$PKG_OK" ]; then
+  echo "No default-jre. Setting up default-jre."
+   apt-get --force-yes --yes install default-jre
+fi
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' default-jdk|grep "install ok installed")
+echo Checking for default-jdk: $PKG_OK
+if [ "" == "$PKG_OK" ]; then
+  echo "No default-jdk. Setting up default-jdk."
+   apt-get --force-yes --yes install default-jdk
+fi
