@@ -83,10 +83,29 @@ curl https://uploads.laabase.ovh/download.php?file=server.properties --output se
 
 }
 
-download_prerequis () { #DOWNLOAD PREREQUIS FILE
+download_prerequis_vb () { #DOWNLOAD PREREQUIS FILE
+rm --recursive /tmp/minecraftinstall_files
 mkdir /tmp/minecraftinstall_files/
-curl https://uploads.laabase.ovh/download.php?file=prerequis --output /tmp/minecraftinstall_files/prerequis  && chmod 0777 --recursive /tmp/minecraftinstall_files
+curl https://uploads.laabase.ovh/download.php?file=prerequis --output /tmp/minecraftinstall_files/prerequis
+curl https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar --output /tmp/minecraftinstall_files/BuildTools.jar
+curl https://uploads.laabase.ovh/download.php?file=buildtools2.bash --output /tmp/minecraftinstall_files/buildtools2.bash
+chmod 0777 --recursive /tmp/minecraftinstall_files
+git config --global --unset core.autocrlf
+cd /tmp/minecraftinstall_files/
 
+}
+
+use_buildtools () { 
+sudo java -jar BuildTools.jar --rev $1
+cp spigot-$1.jar $dossier/spigot.jar
+
+}
+
+
+download_prerequis_vb1 () { #DOWNLOAD PREREQUIS FILE IN VERBOSE MODE USELESS RN!!!
+mkdir /tmp/minecraftinstall_files/
+curl https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar --output /tmp/minecraftinstall_files/prerequis
+chmod 0777 --recursive /tmp/minecraftinstall_files
 }
 
 VB_CHECKING_PACKAGES () {  #CHECKING PACKAGES IN VERBOSE MODE FUNCTION
@@ -109,17 +128,23 @@ if [ "" == "$PKG_OK" ]; then
   echo "No screen. Setting up screen."
    apt-get --force-yes --yes install screen
 fi
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' git|grep "install ok installed")
+echo Checking for git: $PKG_OK
+if [ "" == "$PKG_OK" ]; then
+  echo "No git. Setting up git."
+   apt-get --force-yes --yes install git
+fi
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' python-software-properties|grep "install ok installed")
 echo Checking for python-software-properties: $PKG_OK
 if [ "" == "$PKG_OK" ]; then
   echo "No python-software-properties. Setting up python-software-properties."
    apt-get --force-yes --yes install python-software-properties
 fi
-PKG_OK=$(dpkg-query -W --showformat='${Status}\n' default-jre|grep "install ok installed")
-echo Checking for default-jre: $PKG_OK
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' openjdk-8-jre-headless|grep "install ok installed")
+echo Checking for openjdk-8-jre-headless: $PKG_OK
 if [ "" == "$PKG_OK" ]; then
-  echo "No default-jre. Setting up default-jre."
-   apt-get --force-yes --yes install default-jre
+  echo "No openjdk-8-jre-headless. Setting up openjdk-8-jre-headless."
+   apt-get --force-yes --yes install openjdk-8-jre-headless
 fi
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' default-jdk|grep "install ok installed")
 echo Checking for default-jdk: $PKG_OK
@@ -127,6 +152,71 @@ if [ "" == "$PGK_OK" ]; then
   echo "No default-jdk. Setting up default-jdk."
   sudo apt-get --force-yes --yes install default-jdk
 fi
+}
+
+use_buildtools_fr_gui () {
+screen -dm java -jar BuildTools.jar --rev $1
+# Keep checking if the process is running. And keep a count.
+{
+        percentage="0"
+        while (true)
+        do
+            proc=$(ps aux | grep -v grep | grep -e "BuildTools")
+            if [[ "$proc" == "" ]] && [[ "$percentage" -eq "0" ]];
+            then
+                break;
+            elif [[ "$proc" == "" ]] && [[ "$percentage" -gt "0" ]];
+            then
+                sleep 2
+                echo 98
+                sleep 1
+                echo 99
+                sleep 1
+                echo 100
+                sleep 1
+                break;
+            elif [[ "51" -eq "$percentage" ]]
+            then
+                percentage="30"
+            fi
+            sleep 1
+            echo $percentage
+            percentage=$(expr $percentage + 1)
+        done
+} | whiptail --title "Minecraftinstall" --gauge "Compilation de la version de Spigot $1. Veuillez patienter cela peut prendre du temps. Ne pas fermer le programme." 8 78 0
+cp /tmp/minecraftinstall_files/spigot-$1 $dossier/spigot.jar
+}
+use_buildtools_en_gui () {
+screen -dm java -jar BuildTools.jar --rev $1
+# Keep checking if the process is running. And keep a count.
+{
+        percentage="0"
+        while (true)
+        do
+            proc=$(ps aux | grep -v grep | grep -e "BuildTools")
+            if [[ "$proc" == "" ]] && [[ "$percentage" -eq "0" ]];
+            then
+                break;
+            elif [[ "$proc" == "" ]] && [[ "$percentage" -gt "0" ]];
+            then
+                sleep 2
+                echo 98
+                sleep 1
+                echo 99
+                sleep 1
+                echo 100
+                sleep 1
+                break;
+            elif [[ "51" -eq "$percentage" ]]
+            then
+                percentage="30"
+            fi
+            sleep 1
+            echo $percentage
+            percentage=$(expr $percentage + 1)
+        done
+} | whiptail --title "Minecraftinstall" --gauge "Compile the version of Spigot ($1) you want to install. It can take time. Please do not close the script." 8 78 0
+cp /tmp/minecraftinstall_files/spigot-$1 $dossier/spigot.jar
 }
 #############################################################################
 #LANG SELECTION
@@ -139,9 +229,8 @@ select lang in "English" "French"; do
 	esac
 done
 #############################################################################
-#Creating temporary files & downloading temporary files
+#Creating temporary files & downloading temporary files with download_prerequis
 #############################################################################
-download_prerequis 
 #############################################################################
 #VERBOSE MODE PLEASE DON'T CHANGE ANYTHING
 #############################################################################
@@ -152,6 +241,9 @@ else
 	echo "Chargement du mode verbose. Veuillez patienter."
 fi
 VB_CHECKING_PACKAGES
+clear
+echo -e "\e[32mDownloading script files....\e[0m"
+download_prerequis_vb
 clear
 if [ "$lang" == "French" ]; then
 	echo -e "\e[32mBienvenue sur le programme d'auto-installation de serveur minecraft\e[0m"
@@ -169,21 +261,19 @@ cd $dossier 2> /dev/null
 if cd $dossier 2> /dev/null; then echo " "  ; else echo -e "\e[32mLe dossier n'existe pas, nous l'avons donc créé\e[0m" && mkdir -p $dossier ; fi
 
 cd $dossier
-
+cd /tmp/minecraftinstall_files
 echo  -e "\e[32mQuelle version souhaitez vous installer ?\e[0m"
 select yn in  "1.8.8" "1.9.4" "1.10.2" "1.11.2" "1.12.2"; do 
 	case $yn in 
-		1.8.8 ) curl https://uploads.laabase.ovh/download.php?file=1.8.8.jar --output spigot.jar; break;;
-		1.9.4 ) curl https://uploads.laabase.ovh/download.php?file=1.9.4.jar --output spigot.jar; break;;
-		1.10.2 ) curl https://uploads.laabase.ovh/download.php?file=1.10.2.jar --output spigot.jar; break;;
-		1.11.2 ) curl https://uploads.laabase.ovh/download.php?file=1.11.2.jar --output spigot.jar; break;;
-		1.12.2 ) curl https://uploads.laabase.ovh/download.php?file=1.12.2.jar --output spigot.jar; break;;
+		1.8.8 ) use_buildtools 1.8.8; break;;
+		1.9.4 ) use_buildtools 1.9.4; break;;
+		1.10.2 ) use_buildtools 1.10.2; break;;
+		1.11.2 ) use_buildtools 1.11.2; break;;
+		1.12.2 ) use_buildtools 1.12.2; break;;
 	esac
 done
-
-curl https://uploads.laabase.ovh/download.php?file=launch.sh --output launch.sh 
-curl https://uploads.laabase.ovh/download.php?file=eula.txt --output eula.txt
-curl https://uploads.laabase.ovh/download.php?file=server.properties --output server.properties
+cd $dossier
+download_files
 chmod --recursive 0777 $dossier
 clear
 rm --recursive /tmp/minecraftinstall_files/
@@ -236,14 +326,14 @@ cd $dossier
 echo  -e "\e[32mWich version do you want to install ?\e[0m"
 select yn in  "1.8.8" "1.9.4" "1.10.2" "1.11.2" "1.12.2"; do 
 	case $yn in 
-		1.8.8 ) curl https://uploads.laabase.ovh/download.php?file=1.8.8.jar --output spigot.jar; break;;
-		1.9.4 ) curl https://uploads.laabase.ovh/download.php?file=1.9.4.jar --output spigot.jar; break;;
-		1.10.2 ) curl https://uploads.laabase.ovh/download.php?file=1.10.2.jar --output spigot.jar; break;;
-		1.11.2 ) curl https://uploads.laabase.ovh/download.php?file=1.11.2.jar --output spigot.jar; break;;
-		1.12.2 ) curl https://uploads.laabase.ovh/download.php?file=1.12.2.jar --output spigot.jar; break;;
+		1.8.8 ) use_buildtools 1.8.8; break;;
+		1.9.4 ) use_buildtools 1.9.4; break;;
+		1.10.2 ) use_buildtools 1.10.2; break;;
+		1.11.2 ) use_buildtools 1.11.2; break;;
+		1.12.2 ) use_buildtools 1.12.2; break;;
 	esac
 done
-
+cd $dossier
 download_files
 chmod --recursive 0777 $dossier
 clear
@@ -278,6 +368,7 @@ fi
 fi
 
 ############################ END OF THE VERBOSE MODE ##################################
+download_prerequis_vb
 cd /tmp/minecraftinstall_files/
 if [ "$lang" == "French" ]; then
 bash -c './prerequis  >/dev/null 2>&1'
@@ -310,35 +401,30 @@ cd $dossier 2> /dev/null
 if cd $dossier 2> /dev/null; then echo " "  ; else echo -e "\e[32mLe dossier n'existe pas, nous l'avons donc créé\e[0m" && mkdir $dossier ; fi
 
 cd $dossier
-
-OPTION=$(whiptail --nocancel --title "MinecraftInstall" --menu "Choisissez votre version (via les flèches du clavier puis entrée)" 15 60 4 \
-"1" "1.7.2" \
-"2" "1.8.8" \
-"3" "1.9.4" \
-"4" "1.10.2" \
-"5" "1.11.2" \
-"6" "1.12.2" 3>&1 1>&2 2>&3)
+cd /tmp/minecraftinstall_files
+OPTION=$(whiptail --nocancel --title "MinecraftInstall" --menu "Choisissez votre version (via les flèches du clavier puis entrée) En installant Spigot vous confirmez être d'accord avec les EULA de Spigot et Mojang." 15 60 4 \
+"1" "1.8.8" \
+"2" "1.9.4" \
+"3" "1.10.2" \
+"4" "1.11.2" \
+"5" "1.12.2" 3>&1 1>&2 2>&3)
 
 if [ "$OPTION" = 1 ]; then
-     curl https://uploads.laabase.ovh/download.php?file=1.7.10.jar --output spigot.jar
+      use_buildtools_fr_gui 1.8.8
 else
+
 
 if [ "$OPTION" = 2 ]; then
-      curl https://uploads.laabase.ovh/download.php?file=1.8.8.jar --output spigot.jar
+     use_buildtools_fr_gui 1.9.4
 else
-
-
-if [ "$OPTION" = 3 ]; then
-     curl https://uploads.laabase.ovh/download.php?file=1.9.4.jar --output spigot.jar
+  if [ "$OPTION" = 3 ]; then
+        use_buildtools_fr_gui 1.10.2
 else
   if [ "$OPTION" = 4 ]; then
-        curl https://uploads.laabase.ovh/download.php?file=1.10.2.jar --output spigot.jar
+        use_buildtools_fr_gui 1.11.2
 else
   if [ "$OPTION" = 5 ]; then
-        curl https://uploads.laabase.ovh/download.php?file=1.11.2.jar --output spigot.jar
-else
-  if [ "$OPTION" = 6 ]; then
-        curl https://uploads.laabase.ovh/download.php?file=1.11.2.jar --output spigot.jar
+        use_buildtools_fr_gui 1.12.2
 
 fi
 
@@ -349,27 +435,24 @@ fi
 fi
 
 fi
-
-fi
-curl https://uploads.laabase.ovh/download.php?file=launch.sh --output launch.sh 
-curl https://uploads.laabase.ovh/download.php?file=eula.txt --output eula.txt
-curl https://uploads.laabase.ovh/download.php?file=server.properties --output server.properties
+cp /tmp/minecraftinstall_files/spigot-$1 $dossier/spigot.jar
+cd $dossier
+download_files
 chmod --recursive 0777 $dossier
 rm --recursive /tmp/minecraftinstall_files/
 clear
 echo -e "\e[32m --------------------------------------------------------------------- \e[0m"
 echo -e "\e[31m Paramètres du serveur \e[0m"
 echo -e "\e[32m --------------------------------------------------------------------- \e[0m"
-echo -e "\e[31mQuel port voulez vous utiliser pour votre serveur ? \e[0m"
+echo -e "\e[31mQuel port voulez vous utiliser pour votre serveur (25565 Conseillé) ? \e[0m"
 read serverport
 sed -i -e "s/25565/$serverport/g" $dossier/server.properties
 sed -i -e "s/25565/$serverport/g" $dossier/server.properties
-echo -e "\e[31m Combien de ram souhaitez vous allouer à votre serveur ? à exprimer en G (1G = 1 GO) ou en M (1000M = 1000 Megaoctets \e[0m"
+echo -e "\e[31m Combien de ram souhaitez vous allouer à votre serveur ? à exprimer en G (1G = 1 GO) ou en M (1000M = 1000 Megaoctets) \e[0m"
 read ram
 sed -i "s/2G/$ram /g" $dossier/launch.sh
 echo -e  "\e[32m Voici les informations sur votre serveur :\e[0m "
 echo -e "\e[32mRépertoire du serveur : \e[31m$dossier \e[0m "
-echo -e " \e[32mVersion du serveur : \e[31m$yn \e[0m"
 echo -e " \e[32m Port du serveur : \e[31m$serverport \e[0m"
 echo -e "\e[32m Ram allouée : \e[31m$ram \e[0m"
 echo -e " \e[32m Commande pour accéder au répertoire du serveur : cd $dossier \e[0m"
@@ -417,31 +500,30 @@ cd $dossier 2> /dev/null
 if cd $dossier 2> /dev/null; then echo " "  ; else echo -e "\e[32mThe folder doesn't exist, so we've created it.\e[0m" && mkdir $dossier ; fi
 
 cd $dossier
-
-OPTION=$(whiptail --nocancel --title "MinecraftInstall" --menu "Choose your version (with the keyboard arrows and then enter)" 15 60 4 \  \
+cd /tmp/minecraftinstall_files/
+OPTION=$(whiptail --nocancel --title "MinecraftInstall" --menu "Choose your version (with the keyboard arrows and then enter) By installing Spigot you agree with Spigot's and Mojang's EULA." 15 60 4 \
 "1" "1.8.8" \
 "2" "1.9.4" \
 "3" "1.10.2" \
 "4" "1.11.2" \
 "5" "1.12.2" 3>&1 1>&2 2>&3)
 
-
 if [ "$OPTION" = 1 ]; then
-      curl https://uploads.laabase.ovh/download.php?file=1.8.8.jar --output spigot.jar
+      use_buildtools_en_gui 1.8.8
 else
 
 
 if [ "$OPTION" = 2 ]; then
-     curl https://uploads.laabase.ovh/download.php?file=1.9.4.jar --output spigot.jar
+     use_buildtools_en_gui 1.9.4
 else
   if [ "$OPTION" = 3 ]; then
-        curl https://uploads.laabase.ovh/download.php?file=1.10.2.jar --output spigot.jar
+        use_buildtools_en_gui 1.10.2
 else
   if [ "$OPTION" = 4 ]; then
-        curl https://uploads.laabase.ovh/download.php?file=1.11.2.jar --output spigot.jar
+        use_buildtools_en_gui 1.11.2
 else
   if [ "$OPTION" = 5 ]; then
-        curl https://uploads.laabase.ovh/download.php?file=1.12.2.jar --output spigot.jar
+        use_buildtools_en_gui 1.12.2
 fi
 
 fi
@@ -452,18 +534,16 @@ fi
 
 fi
 
-fi
-
-curl https://uploads.laabase.ovh/download.php?file=launch.sh --output launch.sh 
-curl https://uploads.laabase.ovh/download.php?file=eula.txt --output eula.txt
-curl https://uploads.laabase.ovh/download.php?file=server.properties --output server.properties
+cp /tmp/minecraftinstall_files/spigot-$1 $dossier/spigot.jar
+cd $dossier
+download_files
 chmod --recursive 0777 $dossier
 rm --recursive /tmp/minecraftinstall_files
 clear
 echo -e "\e[31mWich port you want to use for your server ? (Default : 25565) ? \e[0m"
 read serverport
 sed -i -e "s/25565/$serverport /g" $dossier/server.properties
-sed -i -e "s/25565/$serverport/g" $dossier/server.properties
+sed -i -e "s/25565/$serverport/g" $dossier/serve r.properties
 echo -e "\e[31m How much RAM you want allow to your server ? Express it in G (1G = 1 GO) or M (1000M = 1000 Megaoctets) \e[0m"
 read ram
 sed -i "s/2G/$ram /g" $dossier/launch.sh
