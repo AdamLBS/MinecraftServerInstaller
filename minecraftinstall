@@ -42,7 +42,7 @@ fi
 SCRIPT_NAME="/usr/bin/minecraftinstall"
 ARGS="$@"
 NEW_FILE="/tmp/minecraftinstall"
-VERSION="2.0"
+VERSION="2.1"
 
 check_upgrade () { 
 
