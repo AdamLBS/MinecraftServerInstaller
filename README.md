@@ -1,5 +1,5 @@
 MinecraftServerInstaller :
-
+A MORE ADVANCED SCRIPT IS AVAILABLE (IT INCLUDES BUNGEECORD) : https://github.com/LaBaaSe/Mcinstall
 # French Version
 
 # Script d'installation automatique de serveur minecraft
