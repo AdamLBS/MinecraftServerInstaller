@@ -1,1 +1,1 @@
-sudo java -jar BuildTools.jar --rev $1
+sudo java -jar -Xms1G BuildTools.jar --rev $1
